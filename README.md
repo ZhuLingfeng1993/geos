@@ -36,10 +36,10 @@ Building GEOS requires a C++11 compiler
 
     make
     make check
-    make install # (as root, assuming PREFIX is not writable by the build user)
-
+    sudo make install # (as root, assuming PREFIX is not writable by the build user)
+    
     On a GNU/Linux system, if installed in a system prefix:
-      ldconfig # as root
+     sudo ldconfig # as root
 
 ### Microsoft Windows
 
@@ -98,7 +98,17 @@ To compile programs against the C++ lib:
     LDFLAGS += `geos-config --ldflags` -lgeos
     #include <geos.h>
 
+CFLAGS, LDFLAGS这两个是make的隐含参数，在这里的目的是设置编译时的incluede目录和link lib目录和库名称。
+
+其实`geos-config --cflags`是make并install geos生成的命令, 可以直接命令行运行，然后得到geos安装后的include目录，`geos-config --ldflags`得到的是link lib目录
+
+至于geos库的名字，可以在link lib目录下查看，在ubuntu下编译geos得到的库的名字是libgeos.a, libgeos.so, libgeos_c.a, libgeos_c.so.
+
+
+
 Basic usage examples can be found in `doc/example.cpp`.
+
+See details in test-geos-example/.
 
 
 ### Scripting language bindings
@@ -129,6 +139,10 @@ To build Doxygen documentation:
 
     cd doc
     make doxygen-html
+
+只有autotool 支持，cmake暂不支持，包括doc/example.cpp的编译
+
+[#41 making cmake work also on doc directory](https://git.osgeo.org/gitea/geos/geos/pulls/41), 支持cmake编译
 
 ## Style
 
